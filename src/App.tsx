@@ -2,10 +2,43 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import ReconnectingWebSocket from "reconnecting-websocket";
 
+type Future = {
+  ask: number;
+  ask_size: number;
+  bid: number;
+  bid_size: number;
+  change: number;
+  dtm: number;
+  feed: string;
+  funding_rate: number;
+  funding_rate_prediction: number;
+  high: number;
+  index: number;
+  last: number;
+  leverage: string;
+  low: number;
+  markPrice: number;
+  maturityTime: number;
+  next_funding_rate_time: number;
+  open: number;
+  openInterest: number;
+  pair: string;
+  post_only: boolean;
+  premium: number;
+  product_id: string;
+  relative_funding_rate: number;
+  relative_funding_rate_prediction: number;
+  suspended: boolean;
+  tag: string;
+  time: number;
+  volume: number;
+  volumeQuote: number;
+};
+
 function App() {
   const [BTCprice, setBTCprice] = useState(null);
   const [ETHprice, setETHprice] = useState(null);
-  const [futuresPrices, setFuturesPrices] = useState<{ [productId: string]: { price: string; volume: string } }>({});
+  const [futuresPrices, setFuturesPrices] = useState<{ [productId: string]: Future }>({});
 
   useEffect(() => {
     //SPOT
@@ -23,7 +56,7 @@ function App() {
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log(data);
+      // console.log(data);
       // Check if the message is a ticker update
       if (data[3] === "ETH/USD") {
         setETHprice(data[1].c[0]); // Assuming the message structure contains the price at data[1].c[0]
@@ -81,6 +114,8 @@ function App() {
     };
   }, []);
 
+  console.log(futuresPrices);
+
   return (
     <>
       <h1>Rizzfeed, the feed with rizz, made for Rizzi</h1>
@@ -95,13 +130,17 @@ function App() {
         </tr>
       </table>
       <div>
-        {Object.keys(futuresPrices).map((productId) => (
-          <div key={productId}>
-            <h2>{productId}</h2>
-            <p>Price: {futuresPrices[productId].price}</p>
-            <p>Volume: {futuresPrices[productId].volume}</p>
-          </div>
-        ))}
+        {Object.keys(futuresPrices).map(
+          (productId) =>
+            productId !== "undefined" && (
+              <div key={productId}>
+                <h2>{productId}</h2>
+                <p>Ask: {futuresPrices[productId].ask}</p>
+                <p>Bid: {futuresPrices[productId].bid}</p>
+                <p>Funding Rate: {futuresPrices[productId].funding_rate}</p>
+              </div>
+            )
+        )}
       </div>
     </>
   );
