@@ -12,7 +12,7 @@ function App() {
     ws.onopen = () => {
       const subscribeMessage = {
         event: "subscribe",
-        pair: ["XBT/USD"],
+        pair: ["BTC/USD"],
         subscription: { name: "ticker" },
       };
       ws.send(JSON.stringify(subscribeMessage));
