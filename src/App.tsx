@@ -1,5 +1,3 @@
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import { useEffect, useState } from "react";
 
@@ -44,16 +42,14 @@ function App() {
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
       <h1>Rizzfeed, the feed with rizz, made for Rizzi</h1>
       <p>Current BTC/USD price is {price}</p>
+      <table>
+        <thead>BTC/USD</thead>
+        <tr>
+          <td>{price}</td>
+        </tr>
+      </table>
     </>
   );
 }
