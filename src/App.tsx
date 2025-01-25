@@ -2,7 +2,8 @@ import "./App.css";
 import { useEffect, useState } from "react";
 
 function App() {
-  const [price, setPrice] = useState(null);
+  const [BTCprice, setBTCprice] = useState(null);
+  const [ETHprice, setETHprice] = useState(null);
 
   useEffect(() => {
     const ws = new WebSocket("wss://ws.kraken.com/");
@@ -10,7 +11,7 @@ function App() {
     ws.onopen = () => {
       const subscribeMessage = {
         event: "subscribe",
-        pair: ["BTC/USD"],
+        pair: ["BTC/USD", "ETH/USD"],
         subscription: { name: "ticker" },
       };
       ws.send(JSON.stringify(subscribeMessage));
@@ -21,8 +22,10 @@ function App() {
       const data = JSON.parse(event.data);
       console.log(data);
       // Check if the message is a ticker update
-      if (Array.isArray(data) && data[1] && data[1].c) {
-        setPrice(data[1].c[0]); // Set the price to the current price
+      if (data[3] === "ETH/USD") {
+        setETHprice(data[1].c[0]); // Assuming the message structure contains the price at data[1].c[0]
+      } else if (data[3] === "XBT/USD") {
+        setBTCprice(data[1].c[0]); // Assuming the message structure contains the price at data[1].c[0]
       }
     };
 
@@ -43,11 +46,14 @@ function App() {
   return (
     <>
       <h1>Rizzfeed, the feed with rizz, made for Rizzi</h1>
-      <p>Current BTC/USD price is {price}</p>
       <table>
-        <thead>BTC/USD</thead>
         <tr>
-          <td>{price}</td>
+          <td>BTC/USD</td>
+          <td>ETH/USD</td>
+        </tr>
+        <tr>
+          <td>{BTCprice}</td>
+          <td>{ETHprice}</td>
         </tr>
       </table>
     </>
