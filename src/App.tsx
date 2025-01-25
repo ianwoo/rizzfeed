@@ -1,12 +1,15 @@
 import "./App.css";
 import { useEffect, useState } from "react";
+import ReconnectingWebSocket from "reconnecting-websocket";
 
 function App() {
   const [BTCprice, setBTCprice] = useState(null);
   const [ETHprice, setETHprice] = useState(null);
+  const [futuresPrices, setFuturesPrices] = useState<{ [productId: string]: { price: string; volume: string } }>({});
 
   useEffect(() => {
-    const ws = new WebSocket("wss://ws.kraken.com/");
+    //SPOT
+    const ws = new ReconnectingWebSocket("wss://ws.kraken.com/");
 
     ws.onopen = () => {
       const subscribeMessage = {
@@ -37,9 +40,44 @@ function App() {
       console.log("WebSocket connection closed");
     };
 
+    //FUTURES
+    // Define the WebSocket URL for Kraken's public futures prices
+    const fws = new ReconnectingWebSocket("wss://futures.kraken.com/ws/v1");
+
+    // Open WebSocket connection and subscribe to the ticker channel for ETH and BTC futures
+    fws.onopen = () => {
+      fws.send(
+        JSON.stringify({
+          event: "subscribe",
+          feed: "ticker",
+          product_ids: ["PI_XBTUSD", "PI_ETHUSD"],
+        })
+      );
+    };
+
+    // Handle incoming WebSocket messages
+    fws.onmessage = (event) => {
+      const message = JSON.parse(event.data);
+
+      // Check if the message is a ticker update
+      if (message.feed === "ticker") {
+        setFuturesPrices((prevPrices) => ({
+          ...prevPrices,
+          [message.product_id]: message,
+        }));
+      }
+    };
+
+    // Handle WebSocket errors
+    ws.onerror = (err) => {
+      console.error("WebSocket error:", err);
+      // setError("WebSocket error");
+    };
+
     // Cleanup on unmount
     return () => {
       ws.close();
+      fws.close();
     };
   }, []);
 
@@ -56,6 +94,15 @@ function App() {
           <td>{ETHprice}</td>
         </tr>
       </table>
+      <div>
+        {Object.keys(futuresPrices).map((productId) => (
+          <div key={productId}>
+            <h2>{productId}</h2>
+            <p>Price: {futuresPrices[productId].price}</p>
+            <p>Volume: {futuresPrices[productId].volume}</p>
+          </div>
+        ))}
+      </div>
     </>
   );
 }
