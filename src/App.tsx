@@ -114,8 +114,6 @@ function App() {
     };
   }, []);
 
-  console.log(futuresPrices);
-
   return (
     <>
       <h1>Rizzfeed, the feed with rizz, made for Rizzi</h1>
