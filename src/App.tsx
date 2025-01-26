@@ -250,12 +250,12 @@ function App() {
                     findHookBySymbol(coin.symbol)
                   : "spot loading..."}
               </td>
-              <td>%{futures[`PF_${coin.symbol}USD`]?.funding_rate * 24 * 365}</td>
+              <td>%{futures[`PF_${coin.symbol}USD`]?.relative_funding_rate * 100 * 24 * 365}</td>
               <td>n/a</td>
               <td>n/a</td>
-              <td>%{futures[`PF_${coin.symbol}USD`]?.funding_rate}</td>
-              <td>%{futures[`PF_${coin.symbol}USD`]?.funding_rate_prediction}</td>
-              <td>%{futures[`PF_${coin.symbol}USD`]?.funding_rate_prediction * 24 * 365}</td>
+              <td>%{futures[`PF_${coin.symbol}USD`]?.relative_funding_rate * 100}</td>
+              <td>%{futures[`PF_${coin.symbol}USD`]?.relative_funding_rate_prediction * 100}</td>
+              <td>%{futures[`PF_${coin.symbol}USD`]?.relative_funding_rate_prediction * 100 * 24 * 365}</td>
             </tr>,
           ])}
       </table>
