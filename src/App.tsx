@@ -310,19 +310,14 @@ function App() {
                       ).toFixed(6)
                     : "spot loading..."}
                 </td>
-                <td>%{(futures[`FF_${coin.symbol}USD_250228`]?.relative_funding_rate * 100 * 24 * 365).toFixed(8)}</td>
+                <td>n/a</td>
                 <td>2/28</td>
                 <td>
                   {Math.round(Math.abs((new Date(2025, 2, 28).getTime() - new Date().getTime()) / oneDay)).toString()}
                 </td>
-                <td>%{(futures[`FF_${coin.symbol}USD_250228`]?.relative_funding_rate * 100).toFixed(9)}</td>
-                <td>%{(futures[`FF_${coin.symbol}USD_250228`]?.relative_funding_rate_prediction * 100).toFixed(9)}</td>
-                <td>
-                  %
-                  {(futures[`FF_${coin.symbol}USD_250228`]?.relative_funding_rate_prediction * 100 * 24 * 365).toFixed(
-                    9
-                  )}
-                </td>
+                <td>n/a</td>
+                <td>n/a</td>
+                <td>n/a</td>
               </tr>
             ) : null,
             coin.symbol === "XBT" || coin.symbol === "ETH" || coin.symbol === "SOL" ? (
@@ -357,19 +352,14 @@ function App() {
                       ).toFixed(6)
                     : "spot loading..."}
                 </td>
-                <td>%{(futures[`FF_${coin.symbol}USD_250328`]?.relative_funding_rate * 100 * 24 * 365).toFixed(8)}</td>
+                <td>n/a</td>
                 <td>3/28</td>
                 <td>
                   {Math.round(Math.abs((new Date(2025, 3, 28).getTime() - new Date().getTime()) / oneDay)).toString()}
                 </td>
-                <td>%{(futures[`FF_${coin.symbol}USD_250328`]?.relative_funding_rate * 100).toFixed(9)}</td>
-                <td>%{(futures[`FF_${coin.symbol}USD_250328`]?.relative_funding_rate_prediction * 100).toFixed(9)}</td>
-                <td>
-                  %
-                  {(futures[`FF_${coin.symbol}USD_250328`]?.relative_funding_rate_prediction * 100 * 24 * 365).toFixed(
-                    9
-                  )}
-                </td>
+                <td>n/a</td>
+                <td>n/a</td>
+                <td>n/a</td>
               </tr>
             ) : null,
             coin.symbol === "XBT" || coin.symbol === "ETH" ? (
@@ -404,19 +394,14 @@ function App() {
                       ).toFixed(6)
                     : "spot loading..."}
                 </td>
-                <td>%{(futures[`FF_${coin.symbol}USD_250627`]?.relative_funding_rate * 100 * 24 * 365).toFixed(8)}</td>
+                <td>n/a</td>
                 <td>6/27</td>
                 <td>
                   {Math.round(Math.abs((new Date(2025, 6, 27).getTime() - new Date().getTime()) / oneDay)).toString()}
                 </td>
-                <td>%{(futures[`FF_${coin.symbol}USD_250627`]?.relative_funding_rate * 100).toFixed(9)}</td>
-                <td>%{(futures[`FF_${coin.symbol}USD_250627`]?.relative_funding_rate_prediction * 100).toFixed(9)}</td>
-                <td>
-                  %
-                  {(futures[`FF_${coin.symbol}USD_250627`]?.relative_funding_rate_prediction * 100 * 24 * 365).toFixed(
-                    9
-                  )}
-                </td>
+                <td>n/a</td>
+                <td>n/a</td>
+                <td>n/a</td>
               </tr>
             ) : null,
           ])}
