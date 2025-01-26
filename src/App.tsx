@@ -92,7 +92,7 @@ function App() {
         JSON.stringify({
           event: "subscribe",
           feed: "ticker",
-          product_ids: ["PI_XBTUSD", "PI_ETHUSD", "PI_LTCUSD", "PI_BCHUSD", "PI_XRPUSD"],
+          product_ids: ["XBTUSD", "PI_XBTUSD", "PI_ETHUSD", "PI_LTCUSD", "PI_BCHUSD", "PI_XRPUSD"],
         })
       );
     };
@@ -186,7 +186,7 @@ function App() {
 
         <tr>
           <td className="bold btc">BTC</td>
-          <td className="bold">Perp</td>
+          <td className="bold">Perp Inverse</td>
           <td>{futures["PI_XBTUSD"]?.openInterest}</td>
           <td>${futures["PI_XBTUSD"]?.bid}</td>
           <td>${futures["PI_XBTUSD"]?.ask}</td>
@@ -201,6 +201,21 @@ function App() {
           <td>%{futures["PI_XBTUSD"]?.funding_rate_prediction}</td>
           <td>%{futures["PI_XBTUSD"]?.funding_rate_prediction * 24 * 365}</td>
         </tr>
+        {/* <tr>
+          <td className="bold btc">BTC</td>
+          <td className="bold">Perp</td>
+          <td>{futures["BTC"]?.openInterest}</td>
+          <td>${futures["XBTUSD"]?.bid}</td>
+          <td>${futures["XBTUSD"]?.ask}</td>
+          <td>${(futures["XBTUSD"]?.bid + futures["XBTUSD"]?.ask) / 2}</td>
+          <td>${BTCprice ? (futures["XBTUSD"]?.bid + futures["XBTUSD"]?.ask) / 2 - BTCprice : "spot loading..."}</td>
+          <td>%{futures["XBTUSD"]?.funding_rate * 24 * 365}</td>
+          <td>n/a</td>
+          <td>n/a</td>
+          <td>%{futures["XBTUSD"]?.funding_rate}</td>
+          <td>%{futures["XBTUSD"]?.funding_rate_prediction}</td>
+          <td>%{futures["XBTUSD"]?.funding_rate_prediction * 24 * 365}</td>
+        </tr> */}
         <tr>
           <td className="bold eth">ETH</td>
           <td className="bold">Spot</td>
@@ -210,7 +225,7 @@ function App() {
         </tr>
         <tr>
           <td className="bold eth">ETH</td>
-          <td className="bold">Perp</td>
+          <td className="bold">Perp Inverse</td>
           <td>{futures["PI_ETHUSD"]?.openInterest}</td>
           <td>${futures["PI_ETHUSD"]?.bid}</td>
           <td>${futures["PI_ETHUSD"]?.ask}</td>
@@ -234,7 +249,7 @@ function App() {
         </tr>
         <tr>
           <td className="bold xrp">XRP</td>
-          <td className="bold">Perp</td>
+          <td className="bold">Perp Inverse</td>
           <td>{futures["PI_XRPUSD"]?.openInterest}</td>
           <td>${futures["PI_XRPUSD"]?.bid}</td>
           <td>${futures["PI_XRPUSD"]?.ask}</td>
@@ -258,7 +273,7 @@ function App() {
         </tr>
         <tr>
           <td className="bold ltc">LTC</td>
-          <td className="bold">Perp</td>
+          <td className="bold">Perp Inverse</td>
           <td>{futures["PI_LTCUSD"]?.openInterest}</td>
           <td>${futures["PI_LTCUSD"]?.bid}</td>
           <td>${futures["PI_LTCUSD"]?.ask}</td>
@@ -282,7 +297,7 @@ function App() {
         </tr>
         <tr>
           <td className="bold bch">BCH</td>
-          <td className="bold">Perp</td>
+          <td className="bold">Perp Inverse</td>
           <td>{futures["PI_BCHUSD"]?.openInterest}</td>
           <td>${futures["PI_BCHUSD"]?.bid}</td>
           <td>${futures["PI_BCHUSD"]?.ask}</td>
