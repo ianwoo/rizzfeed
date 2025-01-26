@@ -242,26 +242,31 @@ function App() {
               <td className={`bold ${coin.symbol}`}>{coin.label}</td>
               <td className="bold">Perp</td>
               <td>
-                ${(futures[`PF_${coin.symbol}USD`]?.openInterest * findHookBySymbol(coin.symbol)) / 1000000}
+                $
+                {((futures[`PF_${coin.symbol}USD`]?.openInterest * findHookBySymbol(coin.symbol)) / 1000000).toFixed(4)}
                 <br />
                 mm
               </td>
               <td>${futures[`PF_${coin.symbol}USD`]?.bid}</td>
               <td>${futures[`PF_${coin.symbol}USD`]?.ask}</td>
-              <td>${(futures[`PF_${coin.symbol}USD`]?.bid + futures[`PF_${coin.symbol}USD`]?.ask) / 2}</td>
+              <td>${((futures[`PF_${coin.symbol}USD`]?.bid + futures[`PF_${coin.symbol}USD`]?.ask) / 2).toFixed(4)}</td>
               <td>
                 $
                 {findHookBySymbol(coin.symbol)
-                  ? (futures[`PF_${coin.symbol}USD`]?.bid + futures[`PF_${coin.symbol}USD`]?.ask) / 2 -
-                    findHookBySymbol(coin.symbol)
+                  ? (
+                      (futures[`PF_${coin.symbol}USD`]?.bid + futures[`PF_${coin.symbol}USD`]?.ask) / 2 -
+                      findHookBySymbol(coin.symbol)
+                    ).toFixed(6)
                   : "spot loading..."}
               </td>
-              <td>%{futures[`PF_${coin.symbol}USD`]?.relative_funding_rate * 100 * 24 * 365}</td>
+              <td>%{(futures[`PF_${coin.symbol}USD`]?.relative_funding_rate * 100 * 24 * 365).toFixed(8)}</td>
               <td>n/a</td>
               <td>n/a</td>
-              <td>%{futures[`PF_${coin.symbol}USD`]?.relative_funding_rate * 100}</td>
-              <td>%{futures[`PF_${coin.symbol}USD`]?.relative_funding_rate_prediction * 100}</td>
-              <td>%{futures[`PF_${coin.symbol}USD`]?.relative_funding_rate_prediction * 100 * 24 * 365}</td>
+              <td>%{(futures[`PF_${coin.symbol}USD`]?.relative_funding_rate * 100).toFixed(9)}</td>
+              <td>%{(futures[`PF_${coin.symbol}USD`]?.relative_funding_rate_prediction * 100).toFixed(9)}</td>
+              <td>
+                %{(futures[`PF_${coin.symbol}USD`]?.relative_funding_rate_prediction * 100 * 24 * 365).toFixed(9)}
+              </td>
             </tr>,
           ])}
       </table>
