@@ -277,6 +277,53 @@ function App() {
                 %{(futures[`PF_${coin.symbol}USD`]?.relative_funding_rate_prediction * 100 * 24 * 365).toFixed(9)}
               </td>
             </tr>,
+            coin.symbol === "XBT" ? (
+              <tr>
+                <td className={`bold ${coin.symbol}`}>{coin.label}</td>
+                <td className="bold">Fixed</td>
+                <td>
+                  $
+                  {(
+                    (futures[`FF_${coin.symbol}USD_250228`]?.openInterest * findHookBySymbol(coin.symbol)) /
+                    1000000
+                  ).toFixed(4)}
+                  <br />
+                  mm
+                </td>
+                <td>${futures[`FF_${coin.symbol}USD_250228`]?.bid}</td>
+                <td>${futures[`FF_${coin.symbol}USD_250228`]?.ask}</td>
+                <td>
+                  $
+                  {(
+                    (futures[`FF_${coin.symbol}USD_250228`]?.bid + futures[`FF_${coin.symbol}USD_250228`]?.ask) /
+                    2
+                  ).toFixed(4)}
+                </td>
+                <td>
+                  $
+                  {findHookBySymbol(coin.symbol)
+                    ? (
+                        (futures[`FF_${coin.symbol}USD_250228`]?.bid + futures[`FF_${coin.symbol}USD_250228`]?.ask) /
+                          2 -
+                        findHookBySymbol(coin.symbol)
+                      ).toFixed(6)
+                    : "spot loading..."}
+                </td>
+                <td>%{(futures[`FF_${coin.symbol}USD_250228`]?.relative_funding_rate * 100 * 24 * 365).toFixed(8)}</td>
+                <td>2/28</td>
+                <td>
+                  {Math.round(Math.abs((new Date(2025, 2, 28).getTime() - new Date().getTime()) / oneDay)).toString()}
+                </td>
+                <td>%{(futures[`FF_${coin.symbol}USD_250228`]?.relative_funding_rate * 100).toFixed(9)}</td>
+                <td>%{(futures[`FF_${coin.symbol}USD_250228`]?.relative_funding_rate_prediction * 100).toFixed(9)}</td>
+                <td>
+                  %
+                  {(futures[`FF_${coin.symbol}USD_250228`]?.relative_funding_rate_prediction * 100 * 24 * 365).toFixed(
+                    9
+                  )}
+                </td>
+              </tr>
+            ) : null,
             coin.symbol === "XBT" || coin.symbol === "ETH" || coin.symbol === "SOL" ? (
               <tr>
                 <td className={`bold ${coin.symbol}`}>{coin.label}</td>
