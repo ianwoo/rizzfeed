@@ -117,6 +117,7 @@ function App() {
           feed: "ticker",
           product_ids: [
             ...coins.map((coin: { symbol: string; label: string }) => `PF_${coin.symbol}USD`),
+            "FF_XBTUSD_250228",
             "FF_XBTUSD_250328",
             "FF_XBTUSD_250627",
             "FF_SOLUSD_250328",
