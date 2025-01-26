@@ -188,9 +188,10 @@ function App() {
           <td>Ticker</td>
           <td>Name</td>
           <td>
-            Open
+            OI *<br />
+            price
             <br />
-            Interest
+            (mm)
           </td>
           <td>Bid</td>
           <td>Ask</td>
@@ -226,7 +227,8 @@ function App() {
         {coins
           .sort(
             (a: { symbol: string; label: string }, b: { symbol: string; label: string }) =>
-              futures[`PF_${a.symbol}USD`]?.openInterest - futures[`PF_${b.symbol}USD`]?.openInterest
+              futures[`PF_${b.symbol}USD`]?.openInterest * findHookBySymbol(b.symbol) -
+              futures[`PF_${a.symbol}USD`]?.openInterest * findHookBySymbol(a.symbol)
           )
           .map((coin: { symbol: string; label: string }) => [
             <tr>
@@ -239,7 +241,11 @@ function App() {
             <tr>
               <td className={`bold ${coin.symbol}`}>{coin.label}</td>
               <td className="bold">Perp</td>
-              <td>{futures[`PF_${coin.symbol}USD`]?.openInterest}</td>
+              <td>
+                ${(futures[`PF_${coin.symbol}USD`]?.openInterest * findHookBySymbol(coin.symbol)) / 1000000}
+                <br />
+                mm
+              </td>
               <td>${futures[`PF_${coin.symbol}USD`]?.bid}</td>
               <td>${futures[`PF_${coin.symbol}USD`]?.ask}</td>
               <td>${(futures[`PF_${coin.symbol}USD`]?.bid + futures[`PF_${coin.symbol}USD`]?.ask) / 2}</td>
