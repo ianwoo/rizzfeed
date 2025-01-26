@@ -376,7 +376,8 @@ function App() {
                           2 -
                           findHookBySymbol(coin.symbol)) /
                           findHookBySymbol(coin.symbol)) *
-                        (365 / Math.round(Math.abs((new Date(2025, 1, 28).getTime() - Date.now()) / oneDay)))
+                        (365 / Math.round(Math.abs((new Date(2025, 1, 28).getTime() - Date.now()) / oneDay))) *
+                        100
                       : "spot loading..."}
                   </td>
                   <td>2/28</td>
@@ -424,7 +425,8 @@ function App() {
                           2 -
                           findHookBySymbol(coin.symbol)) /
                           findHookBySymbol(coin.symbol)) *
-                        (365 / Math.round(Math.abs((new Date(2025, 2, 28).getTime() - Date.now()) / oneDay)))
+                        (365 / Math.round(Math.abs((new Date(2025, 2, 28).getTime() - Date.now()) / oneDay))) *
+                        100
                       : "spot loading..."}
                   </td>
                   <td>3/28</td>
@@ -473,7 +475,8 @@ function App() {
                           2 -
                           findHookBySymbol(coin.symbol)) /
                           findHookBySymbol(coin.symbol)) *
-                        (365 / Math.round(Math.abs((new Date(2025, 5, 27).getTime() - Date.now()) / oneDay)))
+                        (365 / Math.round(Math.abs((new Date(2025, 5, 27).getTime() - Date.now()) / oneDay))) *
+                        100
                       : "spot loading..."}
                   </td>
                   <td>6/27</td>
