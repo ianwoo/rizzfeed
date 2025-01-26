@@ -46,6 +46,8 @@ const coins: { symbol: string; label: string }[] = [
   { symbol: "UNI", label: "Uniswap" },
 ];
 
+const oneDay = 24 * 60 * 60 * 1000;
+
 function App() {
   //due to the nature of websockets vs. react hooks, we have to manually insert these with a function:
   const [BTCprice, setBTCprice] = useState<number | undefined>(undefined);
@@ -309,7 +311,9 @@ function App() {
                 </td>
                 <td>%{(futures[`FF_${coin.symbol}USD_250328`]?.relative_funding_rate * 100 * 24 * 365).toFixed(8)}</td>
                 <td>3/28</td>
-                <td>incoming</td>
+                <td>
+                  {Math.round(Math.abs((new Date(2025, 3, 28).getTime() - new Date().getTime()) / oneDay)).toString()}
+                </td>
                 <td>%{(futures[`FF_${coin.symbol}USD_250328`]?.relative_funding_rate * 100).toFixed(9)}</td>
                 <td>%{(futures[`FF_${coin.symbol}USD_250328`]?.relative_funding_rate_prediction * 100).toFixed(9)}</td>
                 <td>
@@ -354,7 +358,9 @@ function App() {
                 </td>
                 <td>%{(futures[`FF_${coin.symbol}USD_250627`]?.relative_funding_rate * 100 * 24 * 365).toFixed(8)}</td>
                 <td>6/27</td>
-                <td>incoming</td>
+                <td>
+                  {Math.round(Math.abs((new Date(2025, 6, 27).getTime() - new Date().getTime()) / oneDay)).toString()}
+                </td>
                 <td>%{(futures[`FF_${coin.symbol}USD_250627`]?.relative_funding_rate * 100).toFixed(9)}</td>
                 <td>%{(futures[`FF_${coin.symbol}USD_250627`]?.relative_funding_rate_prediction * 100).toFixed(9)}</td>
                 <td>
