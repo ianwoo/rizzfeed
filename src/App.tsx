@@ -35,24 +35,22 @@ type Future = {
   volumeQuote: number;
 };
 
-const coins: { symbol: string; label: string }[] = [
-  { symbol: "XBT", label: "Bitcoin" },
-  { symbol: "ETH", label: "Ethereum" },
-  { symbol: "SOL", label: "Solana" },
-  { symbol: "XRP", label: "Ripple" },
-  { symbol: "ADA", label: "Cardano" },
-  { symbol: "LTC", label: "Litecoin" },
-  { symbol: "BCH", label: "Bitcoin Cash" },
-  { symbol: "UNI", label: "Uniswap" },
-  { symbol: "TRUMP", label: "Rapist Felon" },
-  { symbol: "MELANIA", label: "First Hoe" },
-  { symbol: "VINE", label: "Vine" },
-  { symbol: "JUP", label: "Jupiter" },
-  { symbol: "SUI", label: "SUI" },
-  { symbol: "POPCAT", label: "Popcat" },
-  { symbol: "WIF", label: "Wif" },
-  { symbol: "RUNE", label: "Rune" },
-  { symbol: "LINK", label: "Chainlink" },
+const coins: { symbol: string }[] = [
+  { symbol: "XBT" },
+  { symbol: "ETH" },
+  { symbol: "SOL" },
+  { symbol: "XRP" },
+  { symbol: "ADA" },
+  { symbol: "LTC" },
+  { symbol: "BCH" },
+  { symbol: "UNI" },
+  { symbol: "TRUMP" },
+  { symbol: "JUP" },
+  { symbol: "SUI" },
+  { symbol: "POPCAT" },
+  { symbol: "WIF" },
+  { symbol: "RUNE" },
+  { symbol: "LINK" },
 ];
 
 const oneDay = 24 * 60 * 60 * 1000;
@@ -68,8 +66,6 @@ function App() {
   const [BCHprice, setBCHprice] = useState<number | undefined>(undefined);
   const [UNIprice, setUNIprice] = useState<number | undefined>(undefined);
   const [TRUMPprice, setTRUMPprice] = useState<number | undefined>(undefined);
-  const [MELprice, setMELprice] = useState<number | undefined>(undefined);
-  const [VINEprice, setVINEprice] = useState<number | undefined>(undefined);
   const [JUPprice, setJUPprice] = useState<number | undefined>(undefined);
   const [SUIprice, setSUIprice] = useState<number | undefined>(undefined);
   const [POPCATprice, setPOPCATprice] = useState<number | undefined>(undefined);
@@ -114,10 +110,6 @@ function App() {
         setUNIprice(data[1].c[0]);
       } else if (data[3] === "TRUMP/USD") {
         setTRUMPprice(data[1].c[0]);
-      } else if (data[3] === "MELANIA/USD") {
-        setMELprice(data[1].c[0]);
-      } else if (data[3] === "VINE/USD") {
-        setVINEprice(data[1].c[0]);
       } else if (data[3] === "JUP/USD") {
         setJUPprice(data[1].c[0]);
       } else if (data[3] === "SUI/USD") {
@@ -152,7 +144,7 @@ function App() {
           event: "subscribe",
           feed: "ticker",
           product_ids: [
-            ...coins.map((coin: { symbol: string; label: string }) => `PF_${coin.symbol}USD`),
+            ...coins.map((coin: { symbol: string }) => `PF_${coin.symbol}USD`),
             "FF_XBTUSD_250228",
             "FF_XBTUSD_250328",
             "FF_XBTUSD_250627",
@@ -211,10 +203,6 @@ function App() {
           return UNIprice ? UNIprice : 0;
         case "TRUMP":
           return TRUMPprice ? TRUMPprice : 0;
-        case "MELANIA":
-          return MELprice ? MELprice : 0;
-        case "VINE":
-          return VINEprice ? VINEprice : 0;
         case "JUP":
           return JUPprice ? JUPprice : 0;
         case "SUI":
@@ -241,8 +229,6 @@ function App() {
       BCHprice,
       UNIprice,
       TRUMPprice,
-      MELprice,
-      VINEprice,
       JUPprice,
       SUIprice,
       POPCATprice,
@@ -251,8 +237,6 @@ function App() {
       LINKprice,
     ]
   );
-
-  console.log(futures);
 
   return (
     <div className="rizz">
@@ -308,11 +292,11 @@ function App() {
 
         {coins
           .sort(
-            (a: { symbol: string; label: string }, b: { symbol: string; label: string }) =>
+            (a: { symbol: string }, b: { symbol: string }) =>
               futures[`PF_${b.symbol}USD`]?.openInterest * findHookBySymbol(b.symbol) -
               futures[`PF_${a.symbol}USD`]?.openInterest * findHookBySymbol(a.symbol)
           )
-          .map((coin: { symbol: string; label: string }) => [
+          .map((coin: { symbol: string }) => [
             <tr>
               <td className={`bold ${coin.symbol}`}>{coin.symbol}</td>
               <td className="bold">Spot</td>
@@ -321,7 +305,7 @@ function App() {
               <td className="sevencol">n/a</td>
             </tr>,
             <tr>
-              <td className={`bold ${coin.symbol}`}>{coin.label}</td>
+              <td className={`bold ${coin.symbol}`}>{coin.symbol}</td>
               <td className="bold">Perp</td>
               <td>
                 $
@@ -351,7 +335,7 @@ function App() {
             </tr>,
             coin.symbol === "XBT" ? (
               <tr>
-                <td className={`bold ${coin.symbol}`}>{coin.label}</td>
+                <td className={`bold ${coin.symbol}`}>{coin.symbol}</td>
                 <td className="bold">Fixed</td>
                 <td>
                   $
@@ -387,12 +371,12 @@ function App() {
                         2 -
                         findHookBySymbol(coin.symbol)) /
                         findHookBySymbol(coin.symbol)) *
-                      (365 / Math.round(Math.abs((new Date(2025, 2, 28).getTime() - new Date().getTime()) / oneDay)))
+                      (365 / Math.round(Math.abs((new Date(2025, 1, 28).getTime() - new Date().getTime()) / oneDay)))
                     : "spot loading..."}
                 </td>
                 <td>2/28</td>
                 <td>
-                  {Math.round(Math.abs((new Date(2025, 2, 28).getTime() - new Date().getTime()) / oneDay)).toString()}
+                  {Math.round(Math.abs((new Date(2025, 1, 28).getTime() - new Date().getTime()) / oneDay)).toString()}
                 </td>
                 <td>n/a</td>
                 <td>n/a</td>
@@ -401,7 +385,7 @@ function App() {
             ) : null,
             coin.symbol === "XBT" || coin.symbol === "ETH" || coin.symbol === "SOL" ? (
               <tr>
-                <td className={`bold ${coin.symbol}`}>{coin.label}</td>
+                <td className={`bold ${coin.symbol}`}>{coin.symbol}</td>
                 <td className="bold">Fixed</td>
                 <td>
                   $
@@ -437,12 +421,12 @@ function App() {
                         2 -
                         findHookBySymbol(coin.symbol)) /
                         findHookBySymbol(coin.symbol)) *
-                      (365 / Math.round(Math.abs((new Date(2025, 3, 28).getTime() - new Date().getTime()) / oneDay)))
+                      (365 / Math.round(Math.abs((new Date(2025, 2, 28).getTime() - new Date().getTime()) / oneDay)))
                     : "spot loading..."}
                 </td>
                 <td>3/28</td>
                 <td>
-                  {Math.round(Math.abs((new Date(2025, 3, 28).getTime() - new Date().getTime()) / oneDay)).toString()}
+                  {Math.round(Math.abs((new Date(2025, 2, 28).getTime() - new Date().getTime()) / oneDay)).toString()}
                 </td>
                 <td>n/a</td>
                 <td>n/a</td>
@@ -451,7 +435,7 @@ function App() {
             ) : null,
             coin.symbol === "XBT" || coin.symbol === "ETH" ? (
               <tr>
-                <td className={`bold ${coin.symbol}`}>{coin.label}</td>
+                <td className={`bold ${coin.symbol}`}>{coin.symbol}</td>
                 <td className="bold">Fixed</td>
                 <td>
                   $
@@ -488,12 +472,12 @@ function App() {
                         2 -
                         findHookBySymbol(coin.symbol)) /
                         findHookBySymbol(coin.symbol)) *
-                      (365 / Math.round(Math.abs((new Date(2025, 6, 27).getTime() - new Date().getTime()) / oneDay)))
+                      (365 / Math.round(Math.abs((new Date(2025, 5, 27).getTime() - new Date().getTime()) / oneDay)))
                     : "spot loading..."}
                 </td>
                 <td>6/27</td>
                 <td>
-                  {Math.round(Math.abs((new Date(2025, 6, 27).getTime() - new Date().getTime()) / oneDay)).toString()}
+                  {Math.round(Math.abs((new Date(2025, 5, 27).getTime() - new Date().getTime()) / oneDay)).toString()}
                 </td>
                 <td>n/a</td>
                 <td>n/a</td>
