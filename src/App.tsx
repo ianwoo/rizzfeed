@@ -170,6 +170,8 @@ function App() {
     [BTCprice, ETHprice, SOLprice, XRPprice, ADAprice, LTCprice, BCHprice, UNIprice]
   );
 
+  console.log(futures);
+
   return (
     <div className="rizz">
       <h3>Rizzfeed, the feed with rizz, made for Rizzi</h3>
@@ -221,36 +223,41 @@ function App() {
           </td>
         </tr>
 
-        {coins.map((coin: { symbol: string; label: string }) => [
-          <tr>
-            <td className={`bold ${coin.symbol}`}>{coin.label}</td>
-            <td className="bold">Spot</td>
-            <td>n/a</td>
-            <td className="big bold threecol">${findHookBySymbol(coin.symbol)}</td>
-            <td className="sevencol">n/a</td>
-          </tr>,
-          <tr>
-            <td className={`bold ${coin.symbol}`}>{coin.label}</td>
-            <td className="bold">Perp</td>
-            <td>{futures[`PF_${coin.symbol}USD`]?.openInterest}</td>
-            <td>${futures[`PF_${coin.symbol}USD`]?.bid}</td>
-            <td>${futures[`PF_${coin.symbol}USD`]?.ask}</td>
-            <td>${(futures[`PF_${coin.symbol}USD`]?.bid + futures[`PF_${coin.symbol}USD`]?.ask) / 2}</td>
-            <td>
-              $
-              {findHookBySymbol(coin.symbol)
-                ? (futures[`PF_${coin.symbol}USD`]?.bid + futures[`PF_${coin.symbol}USD`]?.ask) / 2 -
-                  findHookBySymbol(coin.symbol)
-                : "spot loading..."}
-            </td>
-            <td>%{futures[`PF_${coin.symbol}USD`]?.funding_rate * 24 * 365}</td>
-            <td>n/a</td>
-            <td>n/a</td>
-            <td>%{futures[`PF_${coin.symbol}USD`]?.funding_rate}</td>
-            <td>%{futures[`PF_${coin.symbol}USD`]?.funding_rate_prediction}</td>
-            <td>%{futures[`PF_${coin.symbol}USD`]?.funding_rate_prediction * 24 * 365}</td>
-          </tr>,
-        ])}
+        {coins
+          .sort(
+            (a: { symbol: string; label: string }, b: { symbol: string; label: string }) =>
+              futures[`PF_${b.symbol}USD`]?.openInterest - futures[`PF_${a.symbol}USD`]?.openInterest
+          )
+          .map((coin: { symbol: string; label: string }) => [
+            <tr>
+              <td className={`bold ${coin.symbol}`}>{coin.label}</td>
+              <td className="bold">Spot</td>
+              <td>n/a</td>
+              <td className="big bold threecol">${findHookBySymbol(coin.symbol)}</td>
+              <td className="sevencol">n/a</td>
+            </tr>,
+            <tr>
+              <td className={`bold ${coin.symbol}`}>{coin.label}</td>
+              <td className="bold">Perp</td>
+              <td>{futures[`PF_${coin.symbol}USD`]?.openInterest}</td>
+              <td>${futures[`PF_${coin.symbol}USD`]?.bid}</td>
+              <td>${futures[`PF_${coin.symbol}USD`]?.ask}</td>
+              <td>${(futures[`PF_${coin.symbol}USD`]?.bid + futures[`PF_${coin.symbol}USD`]?.ask) / 2}</td>
+              <td>
+                $
+                {findHookBySymbol(coin.symbol)
+                  ? (futures[`PF_${coin.symbol}USD`]?.bid + futures[`PF_${coin.symbol}USD`]?.ask) / 2 -
+                    findHookBySymbol(coin.symbol)
+                  : "spot loading..."}
+              </td>
+              <td>%{futures[`PF_${coin.symbol}USD`]?.funding_rate * 24 * 365}</td>
+              <td>n/a</td>
+              <td>n/a</td>
+              <td>%{futures[`PF_${coin.symbol}USD`]?.funding_rate}</td>
+              <td>%{futures[`PF_${coin.symbol}USD`]?.funding_rate_prediction}</td>
+              <td>%{futures[`PF_${coin.symbol}USD`]?.funding_rate_prediction * 24 * 365}</td>
+            </tr>,
+          ])}
       </table>
     </div>
   );
