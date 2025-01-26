@@ -38,7 +38,7 @@ type Future = {
 function App() {
   const [BTCprice, setBTCprice] = useState(null);
   const [ETHprice, setETHprice] = useState(null);
-  const [futuresPrices, setFuturesPrices] = useState<{ [productId: string]: Future }>({});
+  const [futures, setFutures] = useState<{ [productId: string]: Future }>({});
 
   useEffect(() => {
     //SPOT
@@ -94,7 +94,7 @@ function App() {
 
       // Check if the message is a ticker update
       if (message.feed === "ticker") {
-        setFuturesPrices((prevPrices) => ({
+        setFutures((prevPrices) => ({
           ...prevPrices,
           [message.product_id]: message,
         }));
@@ -115,32 +115,107 @@ function App() {
   }, []);
 
   return (
-    <>
-      <h1>Rizzfeed, the feed with rizz, made for Rizzi</h1>
+    <div className="rizz">
+      <h3>Rizzfeed, the feed with rizz, made for Rizzi</h3>
       <table>
+        <tr className="bold">
+          <td className="big">Coin</td>
+          <td className="big twocol">Contract</td>
+          <td className="big threecol">Current Px</td>
+          <td className="big twocol">Basis</td>
+          <td className="big fivecol">Futures Info</td>
+        </tr>
+
+        <tr className="bold">
+          <td>Ticker</td>
+          <td>Name</td>
+          <td>
+            Open
+            <br />
+            Interest
+          </td>
+          <td>Bid</td>
+          <td>Ask</td>
+          <td>Mid</td>
+          <td>Basis $</td>
+          <td>Basis %</td>
+          <td>Expiry</td>
+          <td>
+            Days
+            <br />
+            To <br />
+            Expiry
+          </td>
+          <td>
+            Hourly
+            <br />
+            Funding
+          </td>
+          <td>
+            Funding
+            <br />
+            Predict
+          </td>
+          <td>
+            Funding
+            <br />
+            Prediction
+            <br />
+            annualised
+          </td>
+        </tr>
+
         <tr>
-          <td>BTC/USD</td>
-          <td>ETH/USD</td>
+          <td className="bold btc">BTC</td>
+          <td className="bold">Spot</td>
+          <td>n/a</td>
+          <td className="big bold threecol">${BTCprice}</td>
+          <td className="sevencol">n/a</td>
+        </tr>
+
+        <tr>
+          <td className="bold btc">BTC</td>
+          <td className="bold">Perp</td>
+          <td>{futures["PI_XBTUSD"]?.openInterest}</td>
+          <td>${futures["PI_XBTUSD"]?.bid}</td>
+          <td>${futures["PI_XBTUSD"]?.ask}</td>
+          <td>${(futures["PI_XBTUSD"]?.bid + futures["PI_XBTUSD"]?.ask) / 2}</td>
+          <td>
+            ${BTCprice ? (futures["PI_XBTUSD"]?.bid + futures["PI_XBTUSD"]?.ask) / 2 - BTCprice : "spot loading..."}
+          </td>
+          <td>%{futures["PI_XBTUSD"]?.funding_rate * 24 * 365}</td>
+          <td>n/a</td>
+          <td>n/a</td>
+          <td>%{futures["PI_XBTUSD"]?.funding_rate}</td>
+          <td>%{futures["PI_XBTUSD"]?.funding_rate_prediction}</td>
+          <td>%{futures["PI_XBTUSD"]?.funding_rate_prediction * 24 * 365}</td>
         </tr>
         <tr>
-          <td>{BTCprice}</td>
-          <td>{ETHprice}</td>
+          <td className="bold eth">ETH</td>
+          <td className="bold">Spot</td>
+          <td>n/a</td>
+          <td className="big bold threecol">${ETHprice}</td>
+          <td className="sevencol">n/a</td>
+        </tr>
+        <tr>
+          <td className="bold eth">ETH</td>
+          <td className="bold">Perp</td>
+          <td>{futures["PI_ETHUSD"]?.openInterest}</td>
+          <td>${futures["PI_ETHUSD"]?.bid}</td>
+          <td>${futures["PI_ETHUSD"]?.ask}</td>
+          <td>${(futures["PI_ETHUSD"]?.bid + futures["PI_ETHUSD"]?.ask) / 2}</td>
+          <td>
+            ${BTCprice ? (futures["PI_ETHUSD"]?.bid + futures["PI_ETHUSD"]?.ask) / 2 - BTCprice : "spot loading..."}
+          </td>
+          <td>%{futures["PI_ETHUSD"]?.funding_rate * 24 * 365}</td>
+          <td>n/a</td>
+          <td>n/a</td>
+          <td>%{futures["PI_ETHUSD"]?.funding_rate}</td>
+          <td>%{futures["PI_ETHUSD"]?.funding_rate_prediction}</td>
+          <td>%{futures["PI_ETHUSD"]?.funding_rate_prediction * 24 * 365}</td>
         </tr>
       </table>
-      <div>
-        {Object.keys(futuresPrices).map(
-          (productId) =>
-            productId !== "undefined" && (
-              <div key={productId}>
-                <h2>{productId}</h2>
-                <p>Ask: {futuresPrices[productId].ask}</p>
-                <p>Bid: {futuresPrices[productId].bid}</p>
-                <p>Funding Rate: {futuresPrices[productId].funding_rate}</p>
-              </div>
-            )
-        )}
-      </div>
-    </>
+    </div>
   );
 }
 
