@@ -314,7 +314,7 @@ function App() {
           )
           .map((coin: { symbol: string; label: string }) => [
             <tr>
-              <td className={`bold ${coin.symbol}`}>{coin.label}</td>
+              <td className={`bold ${coin.symbol}`}>{coin.symbol}</td>
               <td className="bold">Spot</td>
               <td>n/a</td>
               <td className="big bold threecol">${findHookBySymbol(coin.symbol)}</td>
