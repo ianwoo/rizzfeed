@@ -1,5 +1,5 @@
 import "./App.css";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import ReconnectingWebSocket from "reconnecting-websocket";
 
 type Future = {
@@ -35,12 +35,28 @@ type Future = {
   volumeQuote: number;
 };
 
+const coins: { symbol: string; label: string }[] = [
+  { symbol: "XBT", label: "Bitcoin" },
+  { symbol: "ETH", label: "Ethereum" },
+  { symbol: "SOL", label: "Solana" },
+  { symbol: "XRP", label: "Ripple" },
+  { symbol: "ADA", label: "Cardano" },
+  { symbol: "LTC", label: "Litecoin" },
+  { symbol: "BCH", label: "Bitcoin Cash" },
+  { symbol: "UNI", label: "Uniswap" },
+];
+
 function App() {
-  const [BTCprice, setBTCprice] = useState(null);
-  const [ETHprice, setETHprice] = useState(null);
-  const [LTCprice, setLTCprice] = useState(null);
-  const [BCHprice, setBCHprice] = useState(null);
-  const [XRPprice, setXRPprice] = useState(null);
+  //due to the nature of websockets vs. react hooks, we have to manually insert these with a function:
+  const [BTCprice, setBTCprice] = useState<number | undefined>(undefined);
+  const [ETHprice, setETHprice] = useState<number | undefined>(undefined);
+  const [SOLprice, setSOLprice] = useState<number | undefined>(undefined);
+  const [XRPprice, setXRPprice] = useState<number | undefined>(undefined);
+  const [ADAprice, setADAprice] = useState<number | undefined>(undefined);
+  const [LTCprice, setLTCprice] = useState<number | undefined>(undefined);
+  const [BCHprice, setBCHprice] = useState<number | undefined>(undefined);
+  const [UNIprice, setUNIprice] = useState<number | undefined>(undefined);
+
   const [futures, setFutures] = useState<{ [productId: string]: Future }>({});
 
   useEffect(() => {
@@ -50,7 +66,7 @@ function App() {
     ws.onopen = () => {
       const subscribeMessage = {
         event: "subscribe",
-        pair: ["BTC/USD", "ETH/USD", "LTC/USD", "BCH/USD", "XRP/USD"],
+        pair: coins.map((coin) => `${coin.symbol}/USD`),
         subscription: { name: "ticker" },
       };
       ws.send(JSON.stringify(subscribeMessage));
@@ -59,18 +75,23 @@ function App() {
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      // console.log(data);
-      // Check if the message is a ticker update
-      if (data[3] === "ETH/USD") {
-        setETHprice(data[1].c[0]); // Assuming the message structure contains the price at data[1].c[0]
-      } else if (data[3] === "XBT/USD") {
-        setBTCprice(data[1].c[0]); // Assuming the message structure contains the price at data[1].c[0]
-      } else if (data[3] === "LTC/USD") {
-        setLTCprice(data[1].c[0]); // Assuming the message structure contains the price at data[1].c[0]
-      } else if (data[3] === "BCH/USD") {
-        setBCHprice(data[1].c[0]); // Assuming the message structure contains the price at data[1].c[0]
+
+      if (data[3] === "XBT/USD") {
+        setBTCprice(data[1].c[0]);
+      } else if (data[3] === "ETH/USD") {
+        setETHprice(data[1].c[0]);
+      } else if (data[3] === "SOL/USD") {
+        setSOLprice(data[1].c[0]);
       } else if (data[3] === "XRP/USD") {
-        setXRPprice(data[1].c[0]); // Assuming the message structure contains the price at data[1].c[0]
+        setXRPprice(data[1].c[0]);
+      } else if (data[3] === "ADA/USD") {
+        setADAprice(data[1].c[0]);
+      } else if (data[3] === "LTC/USD") {
+        setLTCprice(data[1].c[0]);
+      } else if (data[3] === "BCH/USD") {
+        setBCHprice(data[1].c[0]);
+      } else if (data[3] === "UNI/USD") {
+        setUNIprice(data[1].c[0]);
       }
     };
 
@@ -92,7 +113,7 @@ function App() {
         JSON.stringify({
           event: "subscribe",
           feed: "ticker",
-          product_ids: ["XBTUSD", "PI_XBTUSD", "PI_ETHUSD", "PI_LTCUSD", "PI_BCHUSD", "PI_XRPUSD"],
+          product_ids: coins.map((coin: { symbol: string; label: string }) => `PF_${coin.symbol}USD`),
         })
       );
     };
@@ -123,7 +144,31 @@ function App() {
     };
   }, []);
 
-  console.log(futures);
+  const findHookBySymbol: (symbol: string) => number = useCallback(
+    (symbol: string) => {
+      switch (symbol) {
+        case "XBT":
+          return BTCprice ? BTCprice : 0;
+        case "ETH":
+          return ETHprice ? ETHprice : 0;
+        case "SOL":
+          return SOLprice ? SOLprice : 0;
+        case "XRP":
+          return XRPprice ? XRPprice : 0;
+        case "ADA":
+          return ADAprice ? ADAprice : 0;
+        case "LTC":
+          return LTCprice ? LTCprice : 0;
+        case "BCH":
+          return BCHprice ? BCHprice : 0;
+        case "UNI":
+          return UNIprice ? UNIprice : 0;
+        default:
+          return 0;
+      }
+    },
+    [BTCprice, ETHprice, SOLprice, XRPprice, ADAprice, LTCprice, BCHprice, UNIprice]
+  );
 
   return (
     <div className="rizz">
@@ -176,142 +221,36 @@ function App() {
           </td>
         </tr>
 
-        <tr>
-          <td className="bold btc">BTC</td>
-          <td className="bold">Spot</td>
-          <td>n/a</td>
-          <td className="big bold threecol">${BTCprice}</td>
-          <td className="sevencol">n/a</td>
-        </tr>
-
-        <tr>
-          <td className="bold btc">BTC</td>
-          <td className="bold">Perp Inverse</td>
-          <td>{futures["PI_XBTUSD"]?.openInterest}</td>
-          <td>${futures["PI_XBTUSD"]?.bid}</td>
-          <td>${futures["PI_XBTUSD"]?.ask}</td>
-          <td>${(futures["PI_XBTUSD"]?.bid + futures["PI_XBTUSD"]?.ask) / 2}</td>
-          <td>
-            ${BTCprice ? (futures["PI_XBTUSD"]?.bid + futures["PI_XBTUSD"]?.ask) / 2 - BTCprice : "spot loading..."}
-          </td>
-          <td>%{futures["PI_XBTUSD"]?.funding_rate * 24 * 365}</td>
-          <td>n/a</td>
-          <td>n/a</td>
-          <td>%{futures["PI_XBTUSD"]?.funding_rate}</td>
-          <td>%{futures["PI_XBTUSD"]?.funding_rate_prediction}</td>
-          <td>%{futures["PI_XBTUSD"]?.funding_rate_prediction * 24 * 365}</td>
-        </tr>
-        {/* <tr>
-          <td className="bold btc">BTC</td>
-          <td className="bold">Perp</td>
-          <td>{futures["BTC"]?.openInterest}</td>
-          <td>${futures["XBTUSD"]?.bid}</td>
-          <td>${futures["XBTUSD"]?.ask}</td>
-          <td>${(futures["XBTUSD"]?.bid + futures["XBTUSD"]?.ask) / 2}</td>
-          <td>${BTCprice ? (futures["XBTUSD"]?.bid + futures["XBTUSD"]?.ask) / 2 - BTCprice : "spot loading..."}</td>
-          <td>%{futures["XBTUSD"]?.funding_rate * 24 * 365}</td>
-          <td>n/a</td>
-          <td>n/a</td>
-          <td>%{futures["XBTUSD"]?.funding_rate}</td>
-          <td>%{futures["XBTUSD"]?.funding_rate_prediction}</td>
-          <td>%{futures["XBTUSD"]?.funding_rate_prediction * 24 * 365}</td>
-        </tr> */}
-        <tr>
-          <td className="bold eth">ETH</td>
-          <td className="bold">Spot</td>
-          <td>n/a</td>
-          <td className="big bold threecol">${ETHprice}</td>
-          <td className="sevencol">n/a</td>
-        </tr>
-        <tr>
-          <td className="bold eth">ETH</td>
-          <td className="bold">Perp Inverse</td>
-          <td>{futures["PI_ETHUSD"]?.openInterest}</td>
-          <td>${futures["PI_ETHUSD"]?.bid}</td>
-          <td>${futures["PI_ETHUSD"]?.ask}</td>
-          <td>${(futures["PI_ETHUSD"]?.bid + futures["PI_ETHUSD"]?.ask) / 2}</td>
-          <td>
-            ${ETHprice ? (futures["PI_ETHUSD"]?.bid + futures["PI_ETHUSD"]?.ask) / 2 - ETHprice : "spot loading..."}
-          </td>
-          <td>%{futures["PI_ETHUSD"]?.funding_rate * 24 * 365}</td>
-          <td>n/a</td>
-          <td>n/a</td>
-          <td>%{futures["PI_ETHUSD"]?.funding_rate}</td>
-          <td>%{futures["PI_ETHUSD"]?.funding_rate_prediction}</td>
-          <td>%{futures["PI_ETHUSD"]?.funding_rate_prediction * 24 * 365}</td>
-        </tr>
-        <tr>
-          <td className="bold xrp">XRP</td>
-          <td className="bold">Spot</td>
-          <td>n/a</td>
-          <td className="big bold threecol">${XRPprice}</td>
-          <td className="sevencol">n/a</td>
-        </tr>
-        <tr>
-          <td className="bold xrp">XRP</td>
-          <td className="bold">Perp Inverse</td>
-          <td>{futures["PI_XRPUSD"]?.openInterest}</td>
-          <td>${futures["PI_XRPUSD"]?.bid}</td>
-          <td>${futures["PI_XRPUSD"]?.ask}</td>
-          <td>${(futures["PI_XRPUSD"]?.bid + futures["PI_XRPUSD"]?.ask) / 2}</td>
-          <td>
-            ${XRPprice ? (futures["PI_XRPUSD"]?.bid + futures["PI_XRPUSD"]?.ask) / 2 - XRPprice : "spot loading..."}
-          </td>
-          <td>%{futures["PI_XRPUSD"]?.funding_rate * 24 * 365}</td>
-          <td>n/a</td>
-          <td>n/a</td>
-          <td>%{futures["PI_XRPUSD"]?.funding_rate}</td>
-          <td>%{futures["PI_XRPUSD"]?.funding_rate_prediction}</td>
-          <td>%{futures["PI_XRPUSD"]?.funding_rate_prediction * 24 * 365}</td>
-        </tr>
-        <tr>
-          <td className="bold ltc">LTC</td>
-          <td className="bold">Spot</td>
-          <td>n/a</td>
-          <td className="big bold threecol">${LTCprice}</td>
-          <td className="sevencol">n/a</td>
-        </tr>
-        <tr>
-          <td className="bold ltc">LTC</td>
-          <td className="bold">Perp Inverse</td>
-          <td>{futures["PI_LTCUSD"]?.openInterest}</td>
-          <td>${futures["PI_LTCUSD"]?.bid}</td>
-          <td>${futures["PI_LTCUSD"]?.ask}</td>
-          <td>${(futures["PI_LTCUSD"]?.bid + futures["PI_LTCUSD"]?.ask) / 2}</td>
-          <td>
-            ${LTCprice ? (futures["PI_LTCUSD"]?.bid + futures["PI_LTCUSD"]?.ask) / 2 - LTCprice : "spot loading..."}
-          </td>
-          <td>%{futures["PI_LTCUSD"]?.funding_rate * 24 * 365}</td>
-          <td>n/a</td>
-          <td>n/a</td>
-          <td>%{futures["PI_LTCUSD"]?.funding_rate}</td>
-          <td>%{futures["PI_LTCUSD"]?.funding_rate_prediction}</td>
-          <td>%{futures["PI_LTCUSD"]?.funding_rate_prediction * 24 * 365}</td>
-        </tr>
-        <tr>
-          <td className="bold bch">BCH</td>
-          <td className="bold">Spot</td>
-          <td>n/a</td>
-          <td className="big bold threecol">${BCHprice}</td>
-          <td className="sevencol">n/a</td>
-        </tr>
-        <tr>
-          <td className="bold bch">BCH</td>
-          <td className="bold">Perp Inverse</td>
-          <td>{futures["PI_BCHUSD"]?.openInterest}</td>
-          <td>${futures["PI_BCHUSD"]?.bid}</td>
-          <td>${futures["PI_BCHUSD"]?.ask}</td>
-          <td>${(futures["PI_BCHUSD"]?.bid + futures["PI_BCHUSD"]?.ask) / 2}</td>
-          <td>
-            ${BCHprice ? (futures["PI_BCHUSD"]?.bid + futures["PI_BCHUSD"]?.ask) / 2 - BCHprice : "spot loading..."}
-          </td>
-          <td>%{futures["PI_BCHUSD"]?.funding_rate * 24 * 365}</td>
-          <td>n/a</td>
-          <td>n/a</td>
-          <td>%{futures["PI_BCHUSD"]?.funding_rate}</td>
-          <td>%{futures["PI_BCHUSD"]?.funding_rate_prediction}</td>
-          <td>%{futures["PI_BCHUSD"]?.funding_rate_prediction * 24 * 365}</td>
-        </tr>
+        {coins.map((coin: { symbol: string; label: string }) => [
+          <tr>
+            <td className={`bold ${coin.symbol}`}>{coin.label}</td>
+            <td className="bold">Spot</td>
+            <td>n/a</td>
+            <td className="big bold threecol">${findHookBySymbol(coin.symbol)}</td>
+            <td className="sevencol">n/a</td>
+          </tr>,
+          <tr>
+            <td className={`bold ${coin.symbol}`}>{coin.label}</td>
+            <td className="bold">Perp</td>
+            <td>{futures[`PF_${coin.symbol}USD`]?.openInterest}</td>
+            <td>${futures[`PF_${coin.symbol}USD`]?.bid}</td>
+            <td>${futures[`PF_${coin.symbol}USD`]?.ask}</td>
+            <td>${(futures[`PF_${coin.symbol}USD`]?.bid + futures[`PF_${coin.symbol}USD`]?.ask) / 2}</td>
+            <td>
+              $
+              {findHookBySymbol(coin.symbol)
+                ? (futures[`PF_${coin.symbol}USD`]?.bid + futures[`PF_${coin.symbol}USD`]?.ask) / 2 -
+                  findHookBySymbol(coin.symbol)
+                : "spot loading..."}
+            </td>
+            <td>%{futures[`PF_${coin.symbol}USD`]?.funding_rate * 24 * 365}</td>
+            <td>n/a</td>
+            <td>n/a</td>
+            <td>%{futures[`PF_${coin.symbol}USD`]?.funding_rate}</td>
+            <td>%{futures[`PF_${coin.symbol}USD`]?.funding_rate_prediction}</td>
+            <td>%{futures[`PF_${coin.symbol}USD`]?.funding_rate_prediction * 24 * 365}</td>
+          </tr>,
+        ])}
       </table>
     </div>
   );

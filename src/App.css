@@ -28,20 +28,32 @@ tr {
   font-weight: 700;
 }
 
-.btc {
+.XBT {
   color: darkorange;
 }
 
-.eth {
+.ETH {
   color: darkcyan;
 }
 
-.ltc {
+.SOL {
+  color: steelblue;
+}
+
+.ADA {
+  color: darkblue;
+}
+
+.LTC {
   color: dimgrey;
 }
 
-.bch {
+.BCH {
   color: green;
+}
+
+.UNI {
+  color: deeppink;
 }
 
 td {
