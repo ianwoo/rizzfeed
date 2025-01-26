@@ -311,7 +311,9 @@ function App() {
                 <td>
                   %
                   {findHookBySymbol(coin.symbol)
-                    ? ((futures[`FF_${coin.symbol}USD_250228`]?.bid + futures[`FF_${coin.symbol}USD_250228`]?.ask) / 2 -
+                    ? (((futures[`FF_${coin.symbol}USD_250228`]?.bid + futures[`FF_${coin.symbol}USD_250228`]?.ask) /
+                        2 -
+                        findHookBySymbol(coin.symbol)) /
                         findHookBySymbol(coin.symbol)) *
                       (365 / Math.round(Math.abs((new Date(2025, 2, 28).getTime() - new Date().getTime()) / oneDay)))
                     : "spot loading..."}
@@ -359,7 +361,9 @@ function App() {
                 <td>
                   %
                   {findHookBySymbol(coin.symbol)
-                    ? ((futures[`FF_${coin.symbol}USD_250328`]?.bid + futures[`FF_${coin.symbol}USD_250328`]?.ask) / 2 -
+                    ? (((futures[`FF_${coin.symbol}USD_250328`]?.bid + futures[`FF_${coin.symbol}USD_250328`]?.ask) /
+                        2 -
+                        findHookBySymbol(coin.symbol)) /
                         findHookBySymbol(coin.symbol)) *
                       (365 / Math.round(Math.abs((new Date(2025, 3, 28).getTime() - new Date().getTime()) / oneDay)))
                     : "spot loading..."}
@@ -408,7 +412,9 @@ function App() {
                 <td>
                   %
                   {findHookBySymbol(coin.symbol)
-                    ? ((futures[`FF_${coin.symbol}USD_250627`]?.bid + futures[`FF_${coin.symbol}USD_250627`]?.ask) / 2 -
+                    ? (((futures[`FF_${coin.symbol}USD_250627`]?.bid + futures[`FF_${coin.symbol}USD_250627`]?.ask) /
+                        2 -
+                        findHookBySymbol(coin.symbol)) /
                         findHookBySymbol(coin.symbol)) *
                       (365 / Math.round(Math.abs((new Date(2025, 6, 27).getTime() - new Date().getTime()) / oneDay)))
                     : "spot loading..."}
