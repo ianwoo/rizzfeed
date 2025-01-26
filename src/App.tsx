@@ -44,6 +44,15 @@ const coins: { symbol: string; label: string }[] = [
   { symbol: "LTC", label: "Litecoin" },
   { symbol: "BCH", label: "Bitcoin Cash" },
   { symbol: "UNI", label: "Uniswap" },
+  { symbol: "TRUMP", label: "Rapist Felon" },
+  { symbol: "MELANIA", label: "First Hoe" },
+  { symbol: "VINE", label: "Vine" },
+  { symbol: "JUP", label: "Jupiter" },
+  { symbol: "SUI", label: "SUI" },
+  { symbol: "POPCAT", label: "Popcat" },
+  { symbol: "WIF", label: "Wif" },
+  { symbol: "RUNE", label: "Rune" },
+  { symbol: "LINK", label: "Chainlink" },
 ];
 
 const oneDay = 24 * 60 * 60 * 1000;
@@ -58,6 +67,15 @@ function App() {
   const [LTCprice, setLTCprice] = useState<number | undefined>(undefined);
   const [BCHprice, setBCHprice] = useState<number | undefined>(undefined);
   const [UNIprice, setUNIprice] = useState<number | undefined>(undefined);
+  const [TRUMPprice, setTRUMPprice] = useState<number | undefined>(undefined);
+  const [MELprice, setMELprice] = useState<number | undefined>(undefined);
+  const [VINEprice, setVINEprice] = useState<number | undefined>(undefined);
+  const [JUPprice, setJUPprice] = useState<number | undefined>(undefined);
+  const [SUIprice, setSUIprice] = useState<number | undefined>(undefined);
+  const [POPCATprice, setPOPCATprice] = useState<number | undefined>(undefined);
+  const [WIFprice, setWIFprice] = useState<number | undefined>(undefined);
+  const [RUNEprice, setRUNEprice] = useState<number | undefined>(undefined);
+  const [LINKprice, setLINKprice] = useState<number | undefined>(undefined);
 
   const [futures, setFutures] = useState<{ [productId: string]: Future }>({});
 
@@ -94,6 +112,24 @@ function App() {
         setBCHprice(data[1].c[0]);
       } else if (data[3] === "UNI/USD") {
         setUNIprice(data[1].c[0]);
+      } else if (data[3] === "TRUMP/USD") {
+        setTRUMPprice(data[1].c[0]);
+      } else if (data[3] === "MELANIA/USD") {
+        setMELprice(data[1].c[0]);
+      } else if (data[3] === "VINE/USD") {
+        setVINEprice(data[1].c[0]);
+      } else if (data[3] === "JUP/USD") {
+        setJUPprice(data[1].c[0]);
+      } else if (data[3] === "SUI/USD") {
+        setSUIprice(data[1].c[0]);
+      } else if (data[3] === "POPCAT/USD") {
+        setPOPCATprice(data[1].c[0]);
+      } else if (data[3] === "WIF/USD") {
+        setWIFprice(data[1].c[0]);
+      } else if (data[3] === "RUNE/USD") {
+        setRUNEprice(data[1].c[0]);
+      } else if (data[3] === "LINK/USD") {
+        setLINKprice(data[1].c[0]);
       }
     };
 
@@ -173,11 +209,47 @@ function App() {
           return BCHprice ? BCHprice : 0;
         case "UNI":
           return UNIprice ? UNIprice : 0;
+        case "TRUMP":
+          return TRUMPprice ? TRUMPprice : 0;
+        case "MELANIA":
+          return MELprice ? MELprice : 0;
+        case "VINE":
+          return VINEprice ? VINEprice : 0;
+        case "JUP":
+          return JUPprice ? JUPprice : 0;
+        case "SUI":
+          return SUIprice ? SUIprice : 0;
+        case "POPCAT":
+          return POPCATprice ? POPCATprice : 0;
+        case "WIF":
+          return WIFprice ? WIFprice : 0;
+        case "RUNE":
+          return RUNEprice ? RUNEprice : 0;
+        case "LINK":
+          return LINKprice ? LINKprice : 0;
         default:
           return 0;
       }
     },
-    [BTCprice, ETHprice, SOLprice, XRPprice, ADAprice, LTCprice, BCHprice, UNIprice]
+    [
+      BTCprice,
+      ETHprice,
+      SOLprice,
+      XRPprice,
+      ADAprice,
+      LTCprice,
+      BCHprice,
+      UNIprice,
+      TRUMPprice,
+      MELprice,
+      VINEprice,
+      JUPprice,
+      SUIprice,
+      POPCATprice,
+      WIFprice,
+      RUNEprice,
+      LINKprice,
+    ]
   );
 
   console.log(futures);
