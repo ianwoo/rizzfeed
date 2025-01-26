@@ -36,6 +36,14 @@ tr {
   color: darkcyan;
 }
 
+.ltc {
+  color: dimgrey;
+}
+
+.bch {
+  color: green;
+}
+
 td {
   flex-grow: 1;
   width: calc(100% / 13);
