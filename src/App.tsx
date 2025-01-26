@@ -226,7 +226,7 @@ function App() {
         {coins
           .sort(
             (a: { symbol: string; label: string }, b: { symbol: string; label: string }) =>
-              futures[`PF_${b.symbol}USD`]?.openInterest - futures[`PF_${a.symbol}USD`]?.openInterest
+              futures[`PF_${a.symbol}USD`]?.openInterest - futures[`PF_${b.symbol}USD`]?.openInterest
           )
           .map((coin: { symbol: string; label: string }) => [
             <tr>
