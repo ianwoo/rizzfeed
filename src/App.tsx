@@ -135,7 +135,7 @@ function App() {
 
     //FUTURES
     // Define the WebSocket URL for Kraken's public futures prices
-    const fws = new ReconnectingWebSocket("wss://futures.kraken.com/ws/v1");
+    const fws = new ReconnectingWebSocket("wss://futures.kraken.com/ws/v3");
 
     // Open WebSocket connection and subscribe to the ticker channel for ETH and BTC futures
     fws.onopen = () => {
@@ -237,6 +237,8 @@ function App() {
       LINKprice,
     ]
   );
+
+  console.log(futures);
 
   return (
     <div className="rizz">
