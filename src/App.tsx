@@ -379,12 +379,12 @@ function App() {
                           2 -
                           findHookBySymbol(coin.symbol)) /
                           findHookBySymbol(coin.symbol)) *
-                        (365 / Math.round(Math.abs((new Date(2025, 6, 27).getTime() - Date.now()) / oneDay))) *
+                        (365 / Math.round(Math.abs((new Date(2025, 5, 27).getTime() - Date.now()) / oneDay))) *
                         100
                       : "spot loading..."}
                   </td>
                   <td>6/27</td>
-                  <td>{Math.round(Math.abs((new Date(2025, 6, 27).getTime() - Date.now()) / oneDay)).toString()}</td>
+                  <td>{Math.round(Math.abs((new Date(2025, 5, 27).getTime() - Date.now()) / oneDay)).toString()}</td>
                   <td>n/a</td>
                   <td>n/a</td>
                   <td>n/a</td>
@@ -429,12 +429,12 @@ function App() {
                           2 -
                           findHookBySymbol(coin.symbol)) /
                           findHookBySymbol(coin.symbol)) *
-                        (365 / Math.round(Math.abs((new Date(2025, 9, 26).getTime() - Date.now()) / oneDay))) *
+                        (365 / Math.round(Math.abs((new Date(2025, 8, 26).getTime() - Date.now()) / oneDay))) *
                         100
                       : "spot loading..."}
                   </td>
                   <td>9/26</td>
-                  <td>{Math.round(Math.abs((new Date(2025, 9, 26).getTime() - Date.now()) / oneDay)).toString()}</td>
+                  <td>{Math.round(Math.abs((new Date(2025, 8, 26).getTime() - Date.now()) / oneDay)).toString()}</td>
                   <td>n/a</td>
                   <td>n/a</td>
                   <td>n/a</td>
@@ -479,12 +479,12 @@ function App() {
                           2 -
                           findHookBySymbol(coin.symbol)) /
                           findHookBySymbol(coin.symbol)) *
-                        (365 / Math.round(Math.abs((new Date(2025, 12, 26).getTime() - Date.now()) / oneDay))) *
+                        (365 / Math.round(Math.abs((new Date(2025, 11, 26).getTime() - Date.now()) / oneDay))) *
                         100
                       : "spot loading..."}
                   </td>
                   <td>12/26</td>
-                  <td>{Math.round(Math.abs((new Date(2025, 12, 26).getTime() - Date.now()) / oneDay)).toString()}</td>
+                  <td>{Math.round(Math.abs((new Date(2025, 11, 26).getTime() - Date.now()) / oneDay)).toString()}</td>
                   <td>n/a</td>
                   <td>n/a</td>
                   <td>n/a</td>
