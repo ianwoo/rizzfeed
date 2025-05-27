@@ -145,12 +145,13 @@ function App() {
           feed: "ticker",
           product_ids: [
             ...coins.map((coin: { symbol: string }) => `PF_${coin.symbol}USD`),
-            "FF_XBTUSD_250228",
-            "FF_XBTUSD_250328",
             "FF_XBTUSD_250627",
-            "FF_SOLUSD_250328",
-            "FF_ETHUSD_250328",
+            "FF_XBTUSD_250926",
+            "FF_XBTUSD_251226",
+            "FF_SOLUSD_250627",
             "FF_ETHUSD_250627",
+            "FF_ETHUSD_250926",
+            "FF_ETHUSD_251226",
           ],
         })
       );
@@ -340,106 +341,8 @@ function App() {
                   %{(futures[`PF_${coin.symbol}USD`]?.relative_funding_rate_prediction * 100 * 24 * 365).toFixed(9)}
                 </td>
               </tr>,
-              coin.symbol === "XBT" ? (
-                <tr key={i + "fixed1"}>
-                  <td className={`bold ${coin.symbol}`}>{coin.symbol}</td>
-                  <td className="bold">Fixed</td>
-                  <td>
-                    $
-                    {(
-                      (futures[`FF_${coin.symbol}USD_250228`]?.openInterest * findHookBySymbol(coin.symbol)) /
-                      1000000
-                    ).toFixed(4)}
-                    <br />
-                  </td>
-                  <td>${futures[`FF_${coin.symbol}USD_250228`]?.bid}</td>
-                  <td>${futures[`FF_${coin.symbol}USD_250228`]?.ask}</td>
-                  <td>
-                    $
-                    {(
-                      (futures[`FF_${coin.symbol}USD_250228`]?.bid + futures[`FF_${coin.symbol}USD_250228`]?.ask) /
-                      2
-                    ).toFixed(4)}
-                  </td>
-                  <td>
-                    $
-                    {findHookBySymbol(coin.symbol)
-                      ? (
-                          (futures[`FF_${coin.symbol}USD_250228`]?.bid + futures[`FF_${coin.symbol}USD_250228`]?.ask) /
-                            2 -
-                          findHookBySymbol(coin.symbol)
-                        ).toFixed(6)
-                      : "spot loading..."}
-                  </td>
-                  <td>
-                    %
-                    {findHookBySymbol(coin.symbol)
-                      ? (((futures[`FF_${coin.symbol}USD_250228`]?.bid + futures[`FF_${coin.symbol}USD_250228`]?.ask) /
-                          2 -
-                          findHookBySymbol(coin.symbol)) /
-                          findHookBySymbol(coin.symbol)) *
-                        (365 / Math.round(Math.abs((new Date(2025, 1, 28).getTime() - Date.now()) / oneDay))) *
-                        100
-                      : "spot loading..."}
-                  </td>
-                  <td>2/28</td>
-                  <td>{Math.round(Math.abs((new Date(2025, 1, 28).getTime() - Date.now()) / oneDay)).toString()}</td>
-                  <td>n/a</td>
-                  <td>n/a</td>
-                  <td>n/a</td>
-                </tr>
-              ) : null,
               coin.symbol === "XBT" || coin.symbol === "ETH" || coin.symbol === "SOL" ? (
-                <tr key={i + "fixed2"}>
-                  <td className={`bold ${coin.symbol}`}>{coin.symbol}</td>
-                  <td className="bold">Fixed</td>
-                  <td>
-                    $
-                    {(
-                      (futures[`FF_${coin.symbol}USD_250328`]?.openInterest * findHookBySymbol(coin.symbol)) /
-                      1000000
-                    ).toFixed(4)}
-                    <br />
-                  </td>
-                  <td>${futures[`FF_${coin.symbol}USD_250328`]?.bid}</td>
-                  <td>${futures[`FF_${coin.symbol}USD_250328`]?.ask}</td>
-                  <td>
-                    $
-                    {(
-                      (futures[`FF_${coin.symbol}USD_250328`]?.bid + futures[`FF_${coin.symbol}USD_250328`]?.ask) /
-                      2
-                    ).toFixed(4)}
-                  </td>
-                  <td>
-                    $
-                    {findHookBySymbol(coin.symbol)
-                      ? (
-                          (futures[`FF_${coin.symbol}USD_250328`]?.bid + futures[`FF_${coin.symbol}USD_250328`]?.ask) /
-                            2 -
-                          findHookBySymbol(coin.symbol)
-                        ).toFixed(6)
-                      : "spot loading..."}
-                  </td>
-                  <td>
-                    %
-                    {findHookBySymbol(coin.symbol)
-                      ? (((futures[`FF_${coin.symbol}USD_250328`]?.bid + futures[`FF_${coin.symbol}USD_250328`]?.ask) /
-                          2 -
-                          findHookBySymbol(coin.symbol)) /
-                          findHookBySymbol(coin.symbol)) *
-                        (365 / Math.round(Math.abs((new Date(2025, 2, 28).getTime() - Date.now()) / oneDay))) *
-                        100
-                      : "spot loading..."}
-                  </td>
-                  <td>3/28</td>
-                  <td>{Math.round(Math.abs((new Date(2025, 2, 28).getTime() - Date.now()) / oneDay)).toString()}</td>
-                  <td>n/a</td>
-                  <td>n/a</td>
-                  <td>n/a</td>
-                </tr>
-              ) : null,
-              coin.symbol === "XBT" || coin.symbol === "ETH" ? (
-                <tr key={i + "fixed3"}>
+                <tr key={i + "fixed1"}>
                   <td className={`bold ${coin.symbol}`}>{coin.symbol}</td>
                   <td className="bold">Fixed</td>
                   <td>
@@ -449,7 +352,6 @@ function App() {
                       1000000
                     ).toFixed(4)}
                     <br />
-                    mm
                   </td>
                   <td>${futures[`FF_${coin.symbol}USD_250627`]?.bid}</td>
                   <td>${futures[`FF_${coin.symbol}USD_250627`]?.ask}</td>
@@ -477,12 +379,112 @@ function App() {
                           2 -
                           findHookBySymbol(coin.symbol)) /
                           findHookBySymbol(coin.symbol)) *
-                        (365 / Math.round(Math.abs((new Date(2025, 5, 27).getTime() - Date.now()) / oneDay))) *
+                        (365 / Math.round(Math.abs((new Date(2025, 6, 27).getTime() - Date.now()) / oneDay))) *
                         100
                       : "spot loading..."}
                   </td>
                   <td>6/27</td>
-                  <td>{Math.round(Math.abs((new Date(2025, 5, 27).getTime() - Date.now()) / oneDay)).toString()}</td>
+                  <td>{Math.round(Math.abs((new Date(2025, 6, 27).getTime() - Date.now()) / oneDay)).toString()}</td>
+                  <td>n/a</td>
+                  <td>n/a</td>
+                  <td>n/a</td>
+                </tr>
+              ) : null,
+              coin.symbol === "XBT" || coin.symbol === "ETH" ? (
+                <tr key={i + "fixed2"}>
+                  <td className={`bold ${coin.symbol}`}>{coin.symbol}</td>
+                  <td className="bold">Fixed</td>
+                  <td>
+                    $
+                    {(
+                      (futures[`FF_${coin.symbol}USD_250926`]?.openInterest * findHookBySymbol(coin.symbol)) /
+                      1000000
+                    ).toFixed(4)}
+                    <br />
+                    mm
+                  </td>
+                  <td>${futures[`FF_${coin.symbol}USD_250926`]?.bid}</td>
+                  <td>${futures[`FF_${coin.symbol}USD_250926`]?.ask}</td>
+                  <td>
+                    $
+                    {(
+                      (futures[`FF_${coin.symbol}USD_250926`]?.bid + futures[`FF_${coin.symbol}USD_250926`]?.ask) /
+                      2
+                    ).toFixed(4)}
+                  </td>
+                  <td>
+                    $
+                    {findHookBySymbol(coin.symbol)
+                      ? (
+                          (futures[`FF_${coin.symbol}USD_250926`]?.bid + futures[`FF_${coin.symbol}USD_250926`]?.ask) /
+                            2 -
+                          findHookBySymbol(coin.symbol)
+                        ).toFixed(6)
+                      : "spot loading..."}
+                  </td>
+                  <td>
+                    %
+                    {findHookBySymbol(coin.symbol)
+                      ? (((futures[`FF_${coin.symbol}USD_250926`]?.bid + futures[`FF_${coin.symbol}USD_250926`]?.ask) /
+                          2 -
+                          findHookBySymbol(coin.symbol)) /
+                          findHookBySymbol(coin.symbol)) *
+                        (365 / Math.round(Math.abs((new Date(2025, 9, 26).getTime() - Date.now()) / oneDay))) *
+                        100
+                      : "spot loading..."}
+                  </td>
+                  <td>9/26</td>
+                  <td>{Math.round(Math.abs((new Date(2025, 9, 26).getTime() - Date.now()) / oneDay)).toString()}</td>
+                  <td>n/a</td>
+                  <td>n/a</td>
+                  <td>n/a</td>
+                </tr>
+              ) : null,
+              coin.symbol === "XBT" || coin.symbol === "ETH" ? (
+                <tr key={i + "fixed3"}>
+                  <td className={`bold ${coin.symbol}`}>{coin.symbol}</td>
+                  <td className="bold">Fixed</td>
+                  <td>
+                    $
+                    {(
+                      (futures[`FF_${coin.symbol}USD_251226`]?.openInterest * findHookBySymbol(coin.symbol)) /
+                      1000000
+                    ).toFixed(4)}
+                    <br />
+                    mm
+                  </td>
+                  <td>${futures[`FF_${coin.symbol}USD_251226`]?.bid}</td>
+                  <td>${futures[`FF_${coin.symbol}USD_251226`]?.ask}</td>
+                  <td>
+                    $
+                    {(
+                      (futures[`FF_${coin.symbol}USD_251226`]?.bid + futures[`FF_${coin.symbol}USD_251226`]?.ask) /
+                      2
+                    ).toFixed(4)}
+                  </td>
+                  <td>
+                    $
+                    {findHookBySymbol(coin.symbol)
+                      ? (
+                          (futures[`FF_${coin.symbol}USD_251226`]?.bid + futures[`FF_${coin.symbol}USD_251226`]?.ask) /
+                            2 -
+                          findHookBySymbol(coin.symbol)
+                        ).toFixed(6)
+                      : "spot loading..."}
+                  </td>
+                  <td>
+                    %
+                    {findHookBySymbol(coin.symbol)
+                      ? (((futures[`FF_${coin.symbol}USD_251226`]?.bid + futures[`FF_${coin.symbol}USD_251226`]?.ask) /
+                          2 -
+                          findHookBySymbol(coin.symbol)) /
+                          findHookBySymbol(coin.symbol)) *
+                        (365 / Math.round(Math.abs((new Date(2025, 12, 26).getTime() - Date.now()) / oneDay))) *
+                        100
+                      : "spot loading..."}
+                  </td>
+                  <td>12/26</td>
+                  <td>{Math.round(Math.abs((new Date(2025, 12, 26).getTime() - Date.now()) / oneDay)).toString()}</td>
                   <td>n/a</td>
                   <td>n/a</td>
                   <td>n/a</td>
